@@ -16,6 +16,9 @@
     --text-light: #6D4C41;
     --shadow: 0 2px 12px rgba(192,57,43,0.12);
     --radius: 14px;
+    --green: #27AE60;
+    --blue: #2980B9;
+    --gold: #F39C12;
   }
   body {
     font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
@@ -42,15 +45,53 @@
   }
   .container { max-width: 640px; margin: 0 auto; padding: 16px; }
 
-  /* Hand sections */
-  .hand-section {
+  /* ===== Patient Bar ===== */
+  .patient-bar {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .patient-bar .label { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; }
+  .patient-bar select {
+    flex: 1;
+    min-width: 100px;
+    padding: 7px 10px;
+    border: 1.5px solid #E8D5C0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    color: var(--text);
+    outline: none;
+  }
+  .patient-bar .btn-sm {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s;
+  }
+  .patient-bar .btn-sm:active { transform: scale(.95); }
+  .btn-sm.add { background: var(--green); color: #fff; }
+  .btn-sm.del { background: #E8D5C0; color: var(--text); }
+  .btn-sm.hist { background: var(--blue); color: #fff; }
+
+  /* ===== Section Common ===== */
+  .section-card {
     background: #fff;
     border-radius: var(--radius);
     padding: 16px;
     margin-bottom: 16px;
     box-shadow: var(--shadow);
   }
-  .hand-title {
+  .section-title {
     font-size: 17px;
     font-weight: 700;
     margin-bottom: 12px;
@@ -58,8 +99,27 @@
     align-items: center;
     gap: 6px;
   }
-  .hand-title.left { color: #C0392B; }
-  .hand-title.right { color: #2980B9; }
+  .section-title .badge {
+    font-size: 11px;
+    font-weight: 400;
+    background: var(--prim-bg);
+    color: var(--text-light);
+    padding: 1px 10px;
+    border-radius: 10px;
+    margin-left: auto;
+  }
+
+  /* ===== Pulse ===== */
+  .hand-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hand-title.left { color: var(--primary); }
+  .hand-title.right { color: var(--blue); }
 
   .pulse-grid {
     display: grid;
@@ -100,8 +160,88 @@
   }
   .pulse-card select:focus { border-color: var(--primary); }
 
-  /* Analyze button */
-  .analyze-area { text-align: center; margin: 8px 0 20px; }
+  /* ===== Tongue / Symptom Grids ===== */
+  .sel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sel-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .sel-item {
+    background: var(--prim-bg);
+    border-radius: 10px;
+    padding: 10px 8px;
+    border: 1.5px solid #E8D5C0;
+  }
+  .sel-item .sel-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+  .sel-item select {
+    width: 100%;
+    padding: 5px 4px;
+    border: 1.5px solid #E8D5C0;
+    border-radius: 8px;
+    font-size: 12px;
+    background: #fff;
+    color: var(--text);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: center;
+    text-align-last: center;
+  }
+  .sel-item select:focus { border-color: var(--accent); }
+
+  /* ===== Symptoms Checkbox ===== */
+  .symp-group {
+    margin-bottom: 10px;
+  }
+  .symp-group .group-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .symp-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .symp-grid label {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 5px 10px;
+    background: var(--prim-bg);
+    border: 1.5px solid #E8D5C0;
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .15s;
+    user-select: none;
+  }
+  .symp-grid input[type="checkbox"] { display: none; }
+  .symp-grid input:checked + span {
+    color: #fff;
+  }
+  .symp-grid input:checked ~ span { color: inherit; }
+  .symp-grid label:has(input:checked) {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+  }
+
+  /* ===== Analyze ===== */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 8px 0 20px;
+    flex-wrap: wrap;
+  }
   .btn-analyze {
     padding: 14px 48px;
     border: none;
@@ -114,12 +254,24 @@
     transition: all .2s;
     box-shadow: 0 3px 12px rgba(192,57,43,0.3);
     letter-spacing: 2px;
+    flex: 1;
+    max-width: 260px;
   }
   .btn-analyze:active { transform: scale(.96); }
+  .btn-reset {
+    padding: 14px 24px;
+    border: 1.5px solid #E8D5C0;
+    border-radius: 28px;
+    background: #fff;
+    color: var(--text-light);
+    font-size: 14px;
+    cursor: pointer;
+  }
 
-  /* Result */
+  /* ===== Result ===== */
   .result-area { display: none; }
-  .result-area.show { display: block; }
+  .result-area.show { display: block; animation: fadeUp .3s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
   .result-section {
     background: #fff;
@@ -129,6 +281,8 @@
     box-shadow: var(--shadow);
     border-left: 4px solid var(--accent);
   }
+  .result-section.green { border-left-color: var(--green); }
+  .result-section.blue { border-left-color: var(--blue); }
   .result-section h3 {
     font-size: 15px;
     color: var(--primary);
@@ -139,18 +293,18 @@
     line-height: 1.8;
     color: var(--text);
   }
-  .result-section .detail {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--text-light);
-    margin-top: 4px;
-  }
-  .result-section .detail .highlight {
-    color: var(--primary);
+  .result-section .summary .tag {
+    display: inline-block;
+    padding: 1px 10px;
+    border-radius: 10px;
+    font-size: 12px;
     font-weight: 600;
+    margin: 2px 2px;
   }
+  .tag.def { background: #E8F5E9; color: #2E7D32; }
+  .tag.exc { background: #FBE9E7; color: #BF360C; }
+  .tag.mix { background: #FFF3E0; color: #E65100; }
 
-  /* Position analysis table */
   .pos-analysis {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -164,9 +318,25 @@
     font-size: 12px;
     line-height: 1.6;
   }
-  .pos-analysis .item .label {
-    font-weight: 600;
+  .pos-analysis .item .label { font-weight: 600; color: var(--primary); }
+
+  .rec-card {
+    padding: 10px 12px;
+    background: var(--prim-bg);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .rec-card .rec-name {
+    font-size: 15px;
+    font-weight: 700;
     color: var(--primary);
+  }
+  .rec-card .rec-comp {
+    font-size: 12px;
+    color: var(--text-light);
+    margin: 3px 0;
   }
 
   .empty-result {
@@ -176,23 +346,6 @@
   }
   .empty-result .icon { font-size: 36px; }
 
-  /* Reset */
-  .reset-bar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 8px;
-  }
-  .reset-btn {
-    padding: 5px 12px;
-    border: 1px solid #E8D5C0;
-    border-radius: 14px;
-    font-size: 12px;
-    color: var(--text-light);
-    background: #fff;
-    cursor: pointer;
-  }
-
-  /* Disclaimer */
   .disclaimer {
     background: #FFF8E1;
     border-radius: 10px;
@@ -202,13 +355,71 @@
     line-height: 1.6;
     margin-top: 12px;
   }
-  .disclaimer b { color: #C0392B; }
+  .disclaimer b { color: var(--primary); }
+
+  /* ===== Modal ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    width: 90%;
+    max-width: 360px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.2);
+  }
+  .modal-box h3 { font-size: 17px; margin-bottom: 14px; text-align: center; }
+  .modal-box input, .modal-box select {
+    width: 100%;
+    padding: 10px;
+    border: 1.5px solid #E8D5C0;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .modal-box input:focus { border-color: var(--primary); }
+  .modal-btn-row { display: flex; gap: 10px; margin-top: 8px; }
+  .modal-btn-row button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .modal-btn-row .ok { background: var(--primary); color: #fff; }
+  .modal-btn-row .cancel { background: #E8D5C0; color: var(--text); }
+
+  /* ===== History ===== */
+  .history-list { max-height: 400px; overflow-y: auto; }
+  .history-item {
+    padding: 10px 12px;
+    border-bottom: 1px solid #F0E0D0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .history-item:last-child { border: none; }
+  .history-item .h-date { font-size: 11px; color: var(--text-light); }
+  .history-item .h-summary { margin-top: 3px; }
 
   @media (max-width: 400px) {
     .pulse-card { padding: 8px 6px; }
     .pulse-card .pos-name { font-size: 14px; }
     .pulse-card select { font-size: 12px; }
     .pos-analysis { grid-template-columns: 1fr; }
+    .sel-grid { grid-template-columns: 1fr; }
+    .sel-grid.three { grid-template-columns: 1fr; }
+    .patient-bar { flex-direction: column; align-items: stretch; }
   }
 </style>
 </head>
@@ -216,13 +427,31 @@
 
 <div class="header">
   <div class="title">🩺 脉诊分析助手</div>
-  <div class="sub">辨脉象 · 知脏腑 · 识病症</div>
+  <div class="sub">辨脉象 · 看舌苔 · 问症状 · 知调养</div>
 </div>
 
 <div class="container">
-  <!-- Left Hand -->
-  <div class="hand-section">
-    <div class="hand-title left">✋ 左手脉象</div>
+
+  <!-- ===== Patient Bar ===== -->
+  <div class="patient-bar">
+    <span class="label">👤 患者</span>
+    <select id="patientSelect" onchange="switchPatient(this.value)">
+      <option value="__new">— 请选择或新建患者 —</option>
+    </select>
+    <button class="btn-sm add" onclick="showNewPatientModal()">➕ 新建</button>
+    <button class="btn-sm del" onclick="deletePatient()">🗑️ 删除</button>
+    <button class="btn-sm hist" onclick="showHistory()">📋 记录</button>
+  </div>
+
+  <!-- ===== Pulse Section ===== -->
+  <div class="section-card" style="padding-bottom:8px;">
+    <div class="section-title">
+      <span>✋ 脉象诊断</span>
+      <span class="badge">六部合参</span>
+    </div>
+
+    <!-- Left Hand -->
+    <div class="hand-title left">✋ 左手</div>
     <div class="pulse-grid">
       <div class="pulse-card">
         <div class="pos-name">寸 脉</div>
@@ -230,21 +459,11 @@
         <select id="left-cun">
           <option value="">— 选脉象 —</option>
           <option value="normal">平脉 (正常)</option>
-          <option value="fu">浮脉</option>
-          <option value="chen">沉脉</option>
-          <option value="chi">迟脉</option>
-          <option value="shuo">数脉</option>
-          <option value="hua">滑脉</option>
-          <option value="se">涩脉</option>
-          <option value="xian">弦脉</option>
-          <option value="xi">细脉</option>
-          <option value="hong">洪脉</option>
-          <option value="ru">濡脉</option>
-          <option value="ruo">弱脉</option>
-          <option value="jin">紧脉</option>
-          <option value="huan">缓脉</option>
-          <option value="jie">结脉</option>
-          <option value="dai">代脉</option>
+          <option value="fu">浮脉</option><option value="chen">沉脉</option><option value="chi">迟脉</option>
+          <option value="shuo">数脉</option><option value="hua">滑脉</option><option value="se">涩脉</option>
+          <option value="xian">弦脉</option><option value="xi">细脉</option><option value="hong">洪脉</option>
+          <option value="ru">濡脉</option><option value="ruo">弱脉</option><option value="jin">紧脉</option>
+          <option value="huan">缓脉</option><option value="jie">结脉</option><option value="dai">代脉</option>
           <option value="cu">促脉</option>
         </select>
       </div>
@@ -254,21 +473,11 @@
         <select id="left-guan">
           <option value="">— 选脉象 —</option>
           <option value="normal">平脉 (正常)</option>
-          <option value="fu">浮脉</option>
-          <option value="chen">沉脉</option>
-          <option value="chi">迟脉</option>
-          <option value="shuo">数脉</option>
-          <option value="hua">滑脉</option>
-          <option value="se">涩脉</option>
-          <option value="xian">弦脉</option>
-          <option value="xi">细脉</option>
-          <option value="hong">洪脉</option>
-          <option value="ru">濡脉</option>
-          <option value="ruo">弱脉</option>
-          <option value="jin">紧脉</option>
-          <option value="huan">缓脉</option>
-          <option value="jie">结脉</option>
-          <option value="dai">代脉</option>
+          <option value="fu">浮脉</option><option value="chen">沉脉</option><option value="chi">迟脉</option>
+          <option value="shuo">数脉</option><option value="hua">滑脉</option><option value="se">涩脉</option>
+          <option value="xian">弦脉</option><option value="xi">细脉</option><option value="hong">洪脉</option>
+          <option value="ru">濡脉</option><option value="ruo">弱脉</option><option value="jin">紧脉</option>
+          <option value="huan">缓脉</option><option value="jie">结脉</option><option value="dai">代脉</option>
           <option value="cu">促脉</option>
         </select>
       </div>
@@ -278,30 +487,18 @@
         <select id="left-chi">
           <option value="">— 选脉象 —</option>
           <option value="normal">平脉 (正常)</option>
-          <option value="fu">浮脉</option>
-          <option value="chen">沉脉</option>
-          <option value="chi">迟脉</option>
-          <option value="shuo">数脉</option>
-          <option value="hua">滑脉</option>
-          <option value="se">涩脉</option>
-          <option value="xian">弦脉</option>
-          <option value="xi">细脉</option>
-          <option value="hong">洪脉</option>
-          <option value="ru">濡脉</option>
-          <option value="ruo">弱脉</option>
-          <option value="jin">紧脉</option>
-          <option value="huan">缓脉</option>
-          <option value="jie">结脉</option>
-          <option value="dai">代脉</option>
+          <option value="fu">浮脉</option><option value="chen">沉脉</option><option value="chi">迟脉</option>
+          <option value="shuo">数脉</option><option value="hua">滑脉</option><option value="se">涩脉</option>
+          <option value="xian">弦脉</option><option value="xi">细脉</option><option value="hong">洪脉</option>
+          <option value="ru">濡脉</option><option value="ruo">弱脉</option><option value="jin">紧脉</option>
+          <option value="huan">缓脉</option><option value="jie">结脉</option><option value="dai">代脉</option>
           <option value="cu">促脉</option>
         </select>
       </div>
     </div>
-  </div>
 
-  <!-- Right Hand -->
-  <div class="hand-section">
-    <div class="hand-title right">🤚 右手脉象</div>
+    <!-- Right Hand -->
+    <div class="hand-title right" style="margin-top:12px;">🤚 右手</div>
     <div class="pulse-grid">
       <div class="pulse-card">
         <div class="pos-name">寸 脉</div>
@@ -309,21 +506,11 @@
         <select id="right-cun">
           <option value="">— 选脉象 —</option>
           <option value="normal">平脉 (正常)</option>
-          <option value="fu">浮脉</option>
-          <option value="chen">沉脉</option>
-          <option value="chi">迟脉</option>
-          <option value="shuo">数脉</option>
-          <option value="hua">滑脉</option>
-          <option value="se">涩脉</option>
-          <option value="xian">弦脉</option>
-          <option value="xi">细脉</option>
-          <option value="hong">洪脉</option>
-          <option value="ru">濡脉</option>
-          <option value="ruo">弱脉</option>
-          <option value="jin">紧脉</option>
-          <option value="huan">缓脉</option>
-          <option value="jie">结脉</option>
-          <option value="dai">代脉</option>
+          <option value="fu">浮脉</option><option value="chen">沉脉</option><option value="chi">迟脉</option>
+          <option value="shuo">数脉</option><option value="hua">滑脉</option><option value="se">涩脉</option>
+          <option value="xian">弦脉</option><option value="xi">细脉</option><option value="hong">洪脉</option>
+          <option value="ru">濡脉</option><option value="ruo">弱脉</option><option value="jin">紧脉</option>
+          <option value="huan">缓脉</option><option value="jie">结脉</option><option value="dai">代脉</option>
           <option value="cu">促脉</option>
         </select>
       </div>
@@ -333,21 +520,11 @@
         <select id="right-guan">
           <option value="">— 选脉象 —</option>
           <option value="normal">平脉 (正常)</option>
-          <option value="fu">浮脉</option>
-          <option value="chen">沉脉</option>
-          <option value="chi">迟脉</option>
-          <option value="shuo">数脉</option>
-          <option value="hua">滑脉</option>
-          <option value="se">涩脉</option>
-          <option value="xian">弦脉</option>
-          <option value="xi">细脉</option>
-          <option value="hong">洪脉</option>
-          <option value="ru">濡脉</option>
-          <option value="ruo">弱脉</option>
-          <option value="jin">紧脉</option>
-          <option value="huan">缓脉</option>
-          <option value="jie">结脉</option>
-          <option value="dai">代脉</option>
+          <option value="fu">浮脉</option><option value="chen">沉脉</option><option value="chi">迟脉</option>
+          <option value="shuo">数脉</option><option value="hua">滑脉</option><option value="se">涩脉</option>
+          <option value="xian">弦脉</option><option value="xi">细脉</option><option value="hong">洪脉</option>
+          <option value="ru">濡脉</option><option value="ruo">弱脉</option><option value="jin">紧脉</option>
+          <option value="huan">缓脉</option><option value="jie">结脉</option><option value="dai">代脉</option>
           <option value="cu">促脉</option>
         </select>
       </div>
@@ -357,36 +534,93 @@
         <select id="right-chi">
           <option value="">— 选脉象 —</option>
           <option value="normal">平脉 (正常)</option>
-          <option value="fu">浮脉</option>
-          <option value="chen">沉脉</option>
-          <option value="chi">迟脉</option>
-          <option value="shuo">数脉</option>
-          <option value="hua">滑脉</option>
-          <option value="se">涩脉</option>
-          <option value="xian">弦脉</option>
-          <option value="xi">细脉</option>
-          <option value="hong">洪脉</option>
-          <option value="ru">濡脉</option>
-          <option value="ruo">弱脉</option>
-          <option value="jin">紧脉</option>
-          <option value="huan">缓脉</option>
-          <option value="jie">结脉</option>
-          <option value="dai">代脉</option>
+          <option value="fu">浮脉</option><option value="chen">沉脉</option><option value="chi">迟脉</option>
+          <option value="shuo">数脉</option><option value="hua">滑脉</option><option value="se">涩脉</option>
+          <option value="xian">弦脉</option><option value="xi">细脉</option><option value="hong">洪脉</option>
+          <option value="ru">濡脉</option><option value="ruo">弱脉</option><option value="jin">紧脉</option>
+          <option value="huan">缓脉</option><option value="jie">结脉</option><option value="dai">代脉</option>
           <option value="cu">促脉</option>
         </select>
       </div>
     </div>
   </div>
 
-  <div class="reset-bar">
-    <button class="reset-btn" onclick="resetAll()">↺ 重置</button>
+  <!-- ===== Tongue Section (B1) ===== -->
+  <div class="section-card">
+    <div class="section-title">
+      <span>👅 舌诊</span>
+      <span class="badge">望舌辨症</span>
+    </div>
+    <div class="sel-grid">
+      <div class="sel-item">
+        <div class="sel-label">舌色</div>
+        <select id="tongue-color">
+          <option value="">— 未选 —</option>
+          <option value="pale">淡白舌 (气血虚/阳虚)</option>
+          <option value="light-red">淡红舌 (正常)</option>
+          <option value="red">红舌 (热证)</option>
+          <option value="crimson">绛舌 (热盛/阴虚火旺)</option>
+          <option value="purple">紫舌 (血瘀/热极)</option>
+          <option value="blue">青舌 (寒凝/血瘀)</option>
+        </select>
+      </div>
+      <div class="sel-item">
+        <div class="sel-label">苔色</div>
+        <select id="coating-color">
+          <option value="">— 未选 —</option>
+          <option value="white">白苔 (表证/寒证)</option>
+          <option value="yellow">黄苔 (热证/里证)</option>
+          <option value="gray">灰苔 (里热/寒湿)</option>
+          <option value="black">黑苔 (热极/寒极)</option>
+        </select>
+      </div>
+    </div>
+    <div class="sel-grid" style="margin-top:8px;">
+      <div class="sel-item">
+        <div class="sel-label">苔质</div>
+        <select id="coating-quality">
+          <option value="">— 未选 —</option>
+          <option value="thin">薄苔 (正常/表证)</option>
+          <option value="thick">厚苔 (里证/痰湿)</option>
+          <option value="greasy">腻苔 (湿浊/痰饮)</option>
+          <option value="dry">燥苔 (津亏/热盛)</option>
+          <option value="moist">润苔 (正常/湿证)</option>
+          <option value="peeled">剥苔 (胃气阴不足)</option>
+          <option value="none">无苔 (胃阴大亏)</option>
+        </select>
+      </div>
+      <div class="sel-item">
+        <div class="sel-label">舌形</div>
+        <select id="tongue-shape">
+          <option value="">— 未选 —</option>
+          <option value="normal">正常 (适中)</option>
+          <option value="swollen">胖大舌 (阳虚水湿)</option>
+          <option value="thin">瘦薄舌 (气血阴亏)</option>
+          <option value="tooth">齿痕舌 (脾虚湿盛)</option>
+          <option value="cracked">裂纹舌 (热盛/阴虚)</option>
+          <option value="prickly">芒刺舌 (热盛)</option>
+          <option value="ecchymosis">瘀斑舌 (血瘀)</option>
+        </select>
+      </div>
+    </div>
   </div>
 
-  <div class="analyze-area">
-    <button class="btn-analyze" onclick="analyze()">🔍 开始分析</button>
+  <!-- ===== Symptoms Section (B1) ===== -->
+  <div class="section-card">
+    <div class="section-title">
+      <span>💬 问诊 — 症状勾选</span>
+      <span class="badge">可多选</span>
+    </div>
+    <div id="symptomsArea"></div>
   </div>
 
-  <!-- Result -->
+  <!-- ===== Actions ===== -->
+  <div class="btn-row">
+    <button class="btn-analyze" onclick="analyze()">🔍 综合分析</button>
+    <button class="btn-reset" onclick="resetAll()">↺ 重置</button>
+  </div>
+
+  <!-- ===== Result ===== -->
   <div class="result-area" id="resultArea">
     <div id="resultContent"></div>
     <div class="disclaimer">
@@ -397,34 +631,69 @@
   </div>
 </div>
 
-<!-- No bottom nav - standalone app -->
+<!-- ===== New Patient Modal ===== -->
+<div class="modal-overlay" id="patientModal">
+  <div class="modal-box">
+    <h3>👤 新建患者</h3>
+    <input id="newPatientName" placeholder="患者姓名" maxlength="20">
+    <div style="display:flex;gap:8px;">
+      <select id="newPatientGender" style="flex:1;">
+        <option value="男">男</option>
+        <option value="女">女</option>
+      </select>
+      <input id="newPatientAge" type="number" placeholder="年龄" min="0" max="120" style="flex:1;">
+    </div>
+    <div class="modal-btn-row">
+      <button class="ok" onclick="createPatient()">✅ 确定</button>
+      <button class="cancel" onclick="hideModal('patientModal')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== History Modal ===== -->
+<div class="modal-overlay" id="historyModal">
+  <div class="modal-box" style="max-width:500px;">
+    <h3>📋 诊断记录</h3>
+    <div id="historyContent" class="history-list"></div>
+    <div class="modal-btn-row">
+      <button class="cancel" onclick="hideModal('historyModal')" style="flex:1;">关闭</button>
+    </div>
+  </div>
+</div>
 
 <script>
-// ====================  PULSE TYPES  ====================
+// ======================== DATA ========================
+
 const PULSE_TYPES = [
   { id:'normal', name:'平脉 (正常)' },
-  { id:'fu', name:'浮脉' },
-  { id:'chen', name:'沉脉' },
-  { id:'chi', name:'迟脉' },
-  { id:'shuo', name:'数脉' },
-  { id:'hua', name:'滑脉' },
-  { id:'se', name:'涩脉' },
-  { id:'xian', name:'弦脉' },
-  { id:'xi', name:'细脉' },
-  { id:'hong', name:'洪脉' },
-  { id:'ru', name:'濡脉' },
-  { id:'ruo', name:'弱脉' },
-  { id:'jin', name:'紧脉' },
-  { id:'huan', name:'缓脉' },
-  { id:'jie', name:'结脉' },
-  { id:'dai', name:'代脉' },
+  { id:'fu', name:'浮脉' }, { id:'chen', name:'沉脉' }, { id:'chi', name:'迟脉' },
+  { id:'shuo', name:'数脉' }, { id:'hua', name:'滑脉' }, { id:'se', name:'涩脉' },
+  { id:'xian', name:'弦脉' }, { id:'xi', name:'细脉' }, { id:'hong', name:'洪脉' },
+  { id:'ru', name:'濡脉' }, { id:'ruo', name:'弱脉' }, { id:'jin', name:'紧脉' },
+  { id:'huan', name:'缓脉' }, { id:'jie', name:'结脉' }, { id:'dai', name:'代脉' },
   { id:'cu', name:'促脉' },
 ];
 
-// ====================  PULSE KNOWLEDGE BASE  ====================
-// position: left-cun, left-guan, left-chi, right-cun, right-guan, right-chi
+const SYMPTOM_GROUPS = [
+  { title:'🌡️ 寒热', items:['怕冷','怕热','怕风','手足心热','手足冰冷','午后潮热','寒热往来'] },
+  { title:'😵 头面', items:['头晕','头痛','目赤','耳鸣','咽痛','口干','口苦','口臭','牙痛'] },
+  { title:'❤️ 胸腹', items:['胸闷','心悸','胁痛','胃胀','腹痛','纳差','反酸','恶心','嗳气'] },
+  { title:'🚻 二便', items:['便秘','腹泻','大便溏','尿黄','尿频','夜尿多','小便清长'] },
+  { title:'💪 全身', items:['乏力','气短','自汗','盗汗','身重','浮肿','消瘦','皮肤瘙痒'] },
+  { title:'😴 睡眠情志', items:['失眠','多梦','易醒','烦躁','抑郁','焦虑','健忘','易惊'] },
+];
+
+const ORGAN_MAP = {
+  'left-cun': { name:'寸脉（左手）', organs:'心 · 小肠', hand:'left' },
+  'left-guan': { name:'关脉（左手）', organs:'肝 · 胆', hand:'left' },
+  'left-chi':  { name:'尺脉（左手）', organs:'肾 · 膀胱', hand:'left' },
+  'right-cun': { name:'寸脉（右手）', organs:'肺 · 大肠', hand:'right' },
+  'right-guan':{ name:'关脉（右手）', organs:'脾 · 胃', hand:'right' },
+  'right-chi': { name:'尺脉（右手）', organs:'命门 · 肾阳', hand:'right' },
+};
+
+// ====================  PULSE KNOWLEDGE  ====================
 const PULSE_KNOWLEDGE = {
-  // ---- 左手寸脉 (心/小肠) ----
   'left-cun': {
     fu: { syndrome:'风热袭表 / 心经风热', desc:'浮脉主表。左寸浮，提示外感风热之邪侵袭心经或上焦，可见发热、咽痛、心烦。' },
     chen: { syndrome:'心阳不振 / 胸阳痹阻', desc:'沉脉主里。左寸沉，多为心阳不足、胸阳不振，可见胸闷气短、心悸乏力。' },
@@ -443,8 +712,6 @@ const PULSE_KNOWLEDGE = {
     dai: { syndrome:'心气衰微 / 脏气亏虚', desc:'代脉主脏气衰微。左寸代，为心气大虚、脉气不续，可见心悸气短、动则加剧。' },
     cu: { syndrome:'心火亢盛 / 热盛气滞', desc:'促脉主热盛。左寸促，提示心火亢盛、热盛气滞，可见烦躁不安、心慌。' },
   },
-
-  // ---- 左手关脉 (肝/胆) ----
   'left-guan': {
     fu: { syndrome:'肝风上扰', desc:'浮脉主表。左关浮，提示风邪上扰肝经，可见头晕目眩、面红目赤。' },
     chen: { syndrome:'肝郁气滞', desc:'沉脉主里。左关沉，提示肝气郁结、气机不畅，可见胸胁胀满、情志抑郁。' },
@@ -460,137 +727,260 @@ const PULSE_KNOWLEDGE = {
     jin: { syndrome:'寒滞肝脉', desc:'紧脉主寒痛。左关紧，提示寒邪侵袭肝经，可见少腹冷痛、疝气。' },
     huan: { syndrome:'肝气平和', desc:'左关缓而柔和为常脉，提示肝气条达舒畅。' },
   },
-
-  // ---- 左手尺脉 (肾/膀胱) ----
   'left-chi': {
-    fu: { syndrome:'肾虚浮阳 / 阴虚阳浮', desc:'尺脉一般不浮。左尺浮，为肾阴亏虚、虚阳浮越之象，可见头晕耳鸣、潮热盗汗。' },
-    chen: { syndrome:'肾阳虚衰', desc:'沉脉主里。尺脉见沉为常。左尺沉而无力，提示肾阳不足，可见腰膝酸冷、畏寒。' },
-    chi: { syndrome:'肾阳虚寒', desc:'迟脉主寒。左尺迟，为肾阳亏虚、寒邪内生，可见腰脊冷痛、小便清长。' },
-    shuo: { syndrome:'肾阴虚火旺', desc:'数脉主热。左尺数，提示肾阴不足、虚火内扰，可见潮热盗汗、遗精早泄。' },
-    hua: { syndrome:'肾经湿热 / 下焦痰浊', desc:'滑脉主痰湿。左尺滑，提示下焦湿热或痰浊，可见小便浑浊、带下黄稠。' },
-    se: { syndrome:'肾精亏虚 / 下焦瘀阻', desc:'涩脉主精亏血瘀。左尺涩，为肾精不足或下焦瘀血，可见腰酸、经少、不孕。' },
-    xian: { syndrome:'肾虚水泛 / 水气内停', desc:'弦脉主饮。左尺弦，提示肾阳不足、水气内停，可见水肿、小便不利。' },
-    xi: { syndrome:'肾阴虚 / 肾精不足', desc:'细脉主虚。左尺细，为肾阴亏虚之象，可见腰膝酸软、头晕耳鸣、咽干。' },
-    hong: { syndrome:'肾火亢盛', desc:'左尺洪，提示相火亢盛，可见遗精、尿赤、腰痛。' },
-    ru: { syndrome:'肾经湿浊', desc:'左尺濡，提示湿浊下注，可见腰重、带下、小便浑浊。' },
-    ruo: { syndrome:'肾气虚 / 肾阳虚', desc:'弱脉主虚。左尺弱，为肾气肾阳不足，可见腰膝酸软、小便频数、阳痿。' },
-    jin: { syndrome:'寒客下焦', desc:'左尺紧，提示寒邪侵袭下焦，可见少腹冷痛、腰背拘急。' },
+    fu: { syndrome:'肾虚浮阳 / 阴虚阳浮', desc:'尺脉一般不浮。左尺浮，为肾阴亏虚、虚阳浮越，可见头晕耳鸣、潮热盗汗。' },
+    chen: { syndrome:'肾阳虚衰', desc:'沉脉主里。尺脉见沉为常。左尺沉而无力，提示肾阳不足，腰膝酸冷、畏寒。' },
+    chi: { syndrome:'肾阳虚寒', desc:'迟脉主寒。左尺迟，为肾阳亏虚、寒邪内生，腰脊冷痛、小便清长。' },
+    shuo: { syndrome:'肾阴虚火旺', desc:'数脉主热。左尺数，提示肾阴不足、虚火内扰，潮热盗汗、遗精早泄。' },
+    hua: { syndrome:'肾经湿热 / 下焦痰浊', desc:'滑脉主痰湿。左尺滑，提示下焦湿热或痰浊，小便浑浊、带下黄稠。' },
+    se: { syndrome:'肾精亏虚 / 下焦瘀阻', desc:'涩脉主精亏血瘀。左尺涩，为肾精不足或下焦瘀血，腰酸、经少、不孕。' },
+    xian: { syndrome:'肾虚水泛 / 水气内停', desc:'弦脉主饮。左尺弦，提示肾阳不足、水气内停，水肿、小便不利。' },
+    xi: { syndrome:'肾阴虚 / 肾精不足', desc:'细脉主虚。左尺细，为肾阴亏虚，腰膝酸软、头晕耳鸣、咽干。' },
+    hong: { syndrome:'肾火亢盛', desc:'左尺洪，提示相火亢盛，遗精、尿赤、腰痛。' },
+    ru: { syndrome:'肾经湿浊', desc:'左尺濡，提示湿浊下注，腰重、带下、小便浑浊。' },
+    ruo: { syndrome:'肾气虚 / 肾阳虚', desc:'弱脉主虚。左尺弱，为肾气肾阳不足，腰膝酸软、小便频数、阳痿。' },
+    jin: { syndrome:'寒客下焦', desc:'左尺紧，提示寒邪侵袭下焦，少腹冷痛、腰背拘急。' },
   },
-
-  // ---- 右手寸脉 (肺/大肠) ----
   'right-cun': {
-    fu: { syndrome:'风寒束表 / 风热犯肺', desc:'浮脉主表。右寸浮，提示外邪犯肺、肺卫失宣，可见恶寒发热、咳嗽鼻塞。' },
-    chen: { syndrome:'肺气郁闭 / 痰浊壅肺', desc:'沉脉主里。右寸沉，提示肺气郁闭不宣，可见胸闷咳喘、痰多难咯。' },
-    chi: { syndrome:'肺寒 / 寒饮伏肺', desc:'迟脉主寒。右寸迟，提示寒邪伏肺，可见咳嗽痰白清稀、畏寒。' },
-    shuo: { syndrome:'肺热壅盛', desc:'数脉主热。右寸数，提示肺热炽盛，可见咳嗽痰黄、咽痛口渴、发热。' },
-    hua: { syndrome:'痰湿壅肺', desc:'滑脉主痰。右寸滑，提示痰湿壅盛于肺，可见咳嗽痰多、胸闷气促。' },
-    se: { syndrome:'肺气不足 / 肺络瘀滞', desc:'涩脉主虚瘀。右寸涩，为肺气不足或肺络瘀滞，可见咳声低弱、胸痛。' },
-    xian: { syndrome:'肝火犯肺', desc:'弦脉主肝。右寸弦，提示肝气上逆犯肺，可见咳嗽阵作、胸胁胀痛。' },
-    xi: { syndrome:'肺气虚 / 肺阴虚', desc:'细脉主虚。右寸细，为肺气或肺阴不足，可见干咳少痰、气短乏力、声低。' },
-    hong: { syndrome:'肺热炽盛', desc:'洪脉主热盛。右寸洪，提示肺热亢盛，可见高热咳喘、痰黄如脓。' },
-    ru: { syndrome:'痰湿困肺', desc:'濡脉主湿。右寸濡，提示湿痰困肺，可见咳嗽痰多、胸闷脘痞。' },
-    ruo: { syndrome:'肺气虚弱', desc:'弱脉主虚。右寸弱，为肺气大虚，可见气短不足以息、自汗、易感冒。' },
-    jin: { syndrome:'风寒束肺', desc:'紧脉主寒。右寸紧，提示风寒外束、肺气不宣，可见恶寒重、咳嗽、身痛。' },
+    fu: { syndrome:'风寒束表 / 风热犯肺', desc:'浮脉主表。右寸浮，提示外邪犯肺、肺卫失宣，恶寒发热、咳嗽鼻塞。' },
+    chen: { syndrome:'肺气郁闭 / 痰浊壅肺', desc:'沉脉主里。右寸沉，提示肺气郁闭不宣，胸闷咳喘、痰多难咯。' },
+    chi: { syndrome:'肺寒 / 寒饮伏肺', desc:'迟脉主寒。右寸迟，提示寒邪伏肺，咳嗽痰白清稀、畏寒。' },
+    shuo: { syndrome:'肺热壅盛', desc:'数脉主热。右寸数，提示肺热炽盛，咳嗽痰黄、咽痛口渴、发热。' },
+    hua: { syndrome:'痰湿壅肺', desc:'滑脉主痰。右寸滑，提示痰湿壅盛于肺，咳嗽痰多、胸闷气促。' },
+    se: { syndrome:'肺气不足 / 肺络瘀滞', desc:'涩脉主虚瘀。右寸涩，为肺气不足或肺络瘀滞，咳声低弱、胸痛。' },
+    xian: { syndrome:'肝火犯肺', desc:'弦脉主肝。右寸弦，提示肝气上逆犯肺，咳嗽阵作、胸胁胀痛。' },
+    xi: { syndrome:'肺气虚 / 肺阴虚', desc:'细脉主虚。右寸细，为肺气或肺阴不足，干咳少痰、气短乏力、声低。' },
+    hong: { syndrome:'肺热炽盛', desc:'洪脉主热盛。右寸洪，提示肺热亢盛，高热咳喘、痰黄如脓。' },
+    ru: { syndrome:'痰湿困肺', desc:'濡脉主湿。右寸濡，提示湿痰困肺，咳嗽痰多、胸闷脘痞。' },
+    ruo: { syndrome:'肺气虚弱', desc:'弱脉主虚。右寸弱，为肺气大虚，气短不足以息、自汗、易感冒。' },
+    jin: { syndrome:'风寒束肺', desc:'紧脉主寒。右寸紧，提示风寒外束、肺气不宣，恶寒重、咳嗽、身痛。' },
     huan: { syndrome:'肺气调和', desc:'右寸缓而有力为常脉，提示肺气宣降正常。' },
-    jie: { syndrome:'肺气虚寒', desc:'右寸结，提示肺气虚寒、脉气不利，可见咳喘气短、畏寒。' },
+    jie: { syndrome:'肺气虚寒', desc:'右寸结，提示肺气虚寒、脉气不利，咳喘气短、畏寒。' },
   },
-
-  // ---- 右手关脉 (脾/胃) ----
   'right-guan': {
-    fu: { syndrome:'风邪伤脾', desc:'右关浮，提示风邪伤及脾胃，可见恶风、腹痛、泄泻。' },
-    chen: { syndrome:'脾阳虚 / 中气下陷', desc:'沉脉主里。右关沉，提示脾阳不足、中气下陷，可见腹胀、泄泻、乏力。' },
-    chi: { syndrome:'脾胃虚寒', desc:'迟脉主寒。右关迟，提示脾胃虚寒，可见脘腹冷痛、喜温喜按、纳少。' },
-    shuo: { syndrome:'胃火炽盛 / 湿热蕴脾', desc:'数脉主热。右关数，提示胃火或湿热，可见口臭、牙龈肿痛、消谷善饥。' },
-    hua: { syndrome:'脾胃痰湿 / 食积', desc:'滑脉主痰主食。右关滑，提示痰湿食积停滞，可见腹胀、嗳腐吞酸、苔腻。' },
-    se: { syndrome:'脾胃气滞 / 瘀阻', desc:'涩脉主滞。右关涩，提示脾胃气机不畅或瘀血，可见脘腹胀痛、大便艰涩。' },
-    xian: { syndrome:'肝气犯胃', desc:'弦脉主肝。右关弦，提示肝气横逆犯胃，可见脘腹胀痛、嗳气、泛酸。' },
-    xi: { syndrome:'脾胃虚弱', desc:'细脉主虚。右关细，为脾胃虚弱之象，可见纳少腹胀、便溏、面色萎黄。' },
-    hong: { syndrome:'胃火炽盛', desc:'洪脉主热盛。右关洪，提示胃火亢盛，可见大渴引饮、口臭、牙龈出血。' },
-    ru: { syndrome:'脾虚湿困', desc:'濡脉主湿。右关濡，提示脾虚不运、湿浊内停，可见脘痞、身重、便溏。' },
-    ruo: { syndrome:'脾气虚', desc:'弱脉主虚。右关弱，为脾气虚弱，可见食少腹胀、神疲乏力、肌肉消瘦。' },
-    jin: { syndrome:'寒邪犯胃', desc:'紧脉主寒痛。右关紧，提示寒邪直中脾胃，可见剧烈腹痛、呕吐、泄泻。' },
-    huan: { syndrome:'脾虚湿盛', desc:'缓脉主湿。右关缓而无力，提示脾虚湿盛，可见大便稀溏、身重乏力。' },
+    fu: { syndrome:'风邪伤脾', desc:'右关浮，提示风邪伤及脾胃，恶风、腹痛、泄泻。' },
+    chen: { syndrome:'脾阳虚 / 中气下陷', desc:'沉脉主里。右关沉，提示脾阳不足、中气下陷，腹胀、泄泻、乏力。' },
+    chi: { syndrome:'脾胃虚寒', desc:'迟脉主寒。右关迟，提示脾胃虚寒，脘腹冷痛、喜温喜按、纳少。' },
+    shuo: { syndrome:'胃火炽盛 / 湿热蕴脾', desc:'数脉主热。右关数，提示胃火或湿热，口臭、牙龈肿痛、消谷善饥。' },
+    hua: { syndrome:'脾胃痰湿 / 食积', desc:'滑脉主痰主食。右关滑，提示痰湿食积停滞，腹胀、嗳腐吞酸、苔腻。' },
+    se: { syndrome:'脾胃气滞 / 瘀阻', desc:'涩脉主滞。右关涩，提示脾胃气机不畅或瘀血，脘腹胀痛、大便艰涩。' },
+    xian: { syndrome:'肝气犯胃', desc:'弦脉主肝。右关弦，提示肝气横逆犯胃，脘腹胀痛、嗳气、泛酸。' },
+    xi: { syndrome:'脾胃虚弱', desc:'细脉主虚。右关细，为脾胃虚弱，纳少腹胀、便溏、面色萎黄。' },
+    hong: { syndrome:'胃火炽盛', desc:'洪脉主热盛。右关洪，提示胃火亢盛，大渴引饮、口臭、牙龈出血。' },
+    ru: { syndrome:'脾虚湿困', desc:'濡脉主湿。右关濡，提示脾虚不运、湿浊内停，脘痞、身重、便溏。' },
+    ruo: { syndrome:'脾气虚', desc:'弱脉主虚。右关弱，为脾气虚弱，食少腹胀、神疲乏力、肌肉消瘦。' },
+    jin: { syndrome:'寒邪犯胃', desc:'紧脉主寒痛。右关紧，提示寒邪直中脾胃，剧烈腹痛、呕吐、泄泻。' },
+    huan: { syndrome:'脾虚湿盛', desc:'缓脉主湿。右关缓而无力，提示脾虚湿盛，大便稀溏、身重乏力。' },
     normal: { syndrome:'脾胃健运', desc:'右关缓而有力为常脉，提示脾胃运化功能正常。' },
-    jie: { syndrome:'脾胃寒凝', desc:'右关结，提示脾胃寒凝气滞，可见脘腹冷痛、大便不调。' },
+    jie: { syndrome:'脾胃寒凝', desc:'右关结，提示脾胃寒凝气滞，脘腹冷痛、大便不调。' },
   },
-
-  // ---- 右手尺脉 (命门/肾阳) ----
   'right-chi': {
-    fu: { syndrome:'肾虚不固 / 虚阳外浮', desc:'尺脉一般不浮。右尺浮，提示肾气不固、虚阳浮越，可见遗精滑泄、腰酸。' },
-    chen: { syndrome:'命门火衰 / 肾阳不足', desc:'沉脉主里。右尺沉而无力，提示命门火衰，可见畏寒肢冷、阳痿、五更泄。' },
-    chi: { syndrome:'肾阳虚寒', desc:'迟脉主寒。右尺迟，提示肾阳亏虚、寒自内生，可见腰脊冷痛、夜尿频多。' },
-    shuo: { syndrome:'肾阴虚火旺', desc:'数脉主热。右尺数，提示肾阴不足、虚火内扰，可见潮热、盗汗、遗精。' },
-    hua: { syndrome:'下焦痰湿', desc:'滑脉主痰湿。右尺滑，提示下焦痰湿，可见下肢沉重、小便浑浊。' },
-    se: { syndrome:'命门精亏 / 下焦瘀阻', desc:'涩脉主精亏。右尺涩，为命门精气不足，可见腰酸、不育、月经不调。' },
-    xian: { syndrome:'肾阳不足 / 水气内停', desc:'右尺弦，提示肾阳不足、水气内停，可见水肿、小便不利。' },
-    xi: { syndrome:'肾阳不足 / 精血亏虚', desc:'细脉主虚。右尺细，为肾阳不足或精血亏虚，可见腰酸、畏寒、神疲。' },
-    hong: { syndrome:'相火亢盛', desc:'右尺洪，提示相火亢盛，可见遗精、烦躁、尿黄。' },
-    ru: { syndrome:'肾经湿浊', desc:'右尺濡，提示湿浊下注，可见腰重、带下清稀。' },
-    ruo: { syndrome:'命门火衰 / 肾气大虚', desc:'弱脉主虚。右尺弱，为命门火衰，可见形寒肢冷、腰膝酸软、阳痿。' },
-    jin: { syndrome:'寒客下焦', desc:'右尺紧，提示下焦寒凝，可见腰脊冷痛、小腹拘急。' },
+    fu: { syndrome:'肾虚不固 / 虚阳外浮', desc:'尺脉一般不浮。右尺浮，提示肾气不固、虚阳浮越，遗精滑泄、腰酸。' },
+    chen: { syndrome:'命门火衰 / 肾阳不足', desc:'沉脉主里。右尺沉而无力，提示命门火衰，畏寒肢冷、阳痿、五更泄。' },
+    chi: { syndrome:'肾阳虚寒', desc:'迟脉主寒。右尺迟，提示肾阳亏虚、寒自内生，腰脊冷痛、夜尿频多。' },
+    shuo: { syndrome:'肾阴虚火旺', desc:'数脉主热。右尺数，提示肾阴不足、虚火内扰，潮热、盗汗、遗精。' },
+    hua: { syndrome:'下焦痰湿', desc:'滑脉主痰湿。右尺滑，提示下焦痰湿，下肢沉重、小便浑浊。' },
+    se: { syndrome:'命门精亏 / 下焦瘀阻', desc:'涩脉主精亏。右尺涩，为命门精气不足，腰酸、不育、月经不调。' },
+    xian: { syndrome:'肾阳不足 / 水气内停', desc:'右尺弦，提示肾阳不足、水气内停，水肿、小便不利。' },
+    xi: { syndrome:'肾阳不足 / 精血亏虚', desc:'细脉主虚。右尺细，为肾阳不足或精血亏虚，腰酸、畏寒、神疲。' },
+    hong: { syndrome:'相火亢盛', desc:'右尺洪，提示相火亢盛，遗精、烦躁、尿黄。' },
+    ru: { syndrome:'肾经湿浊', desc:'右尺濡，提示湿浊下注，腰重、带下清稀。' },
+    ruo: { syndrome:'命门火衰 / 肾气大虚', desc:'弱脉主虚。右尺弱，为命门火衰，形寒肢冷、腰膝酸软、阳痿。' },
+    jin: { syndrome:'寒客下焦', desc:'右尺紧，提示下焦寒凝，腰脊冷痛、小腹拘急。' },
     huan: { syndrome:'肾气充实', desc:'右尺缓而有力为常脉，提示肾气充实、命火旺盛。' },
   },
 };
 
-// Organ mappings
-const ORGAN_MAP = {
-  'left-cun': { name:'寸脉（左手）', organs:'心 · 小肠', color:'#C0392B' },
-  'left-guan': { name:'关脉（左手）', organs:'肝 · 胆', color:'#C0392B' },
-  'left-chi':  { name:'尺脉（左手）', organs:'肾 · 膀胱', color:'#C0392B' },
-  'right-cun': { name:'寸脉（右手）', organs:'肺 · 大肠', color:'#2980B9' },
-  'right-guan':{ name:'关脉（右手）', organs:'脾 · 胃', color:'#2980B9' },
-  'right-chi': { name:'尺脉（右手）', organs:'命门 · 肾阳', color:'#2980B9' },
+const PULSE_DESC = {
+  fu:{name:'浮脉',feeling:'轻取即得，重按反减',desc:'主表证。外感风寒或风热，病在肌表卫分。'},
+  chen:{name:'沉脉',feeling:'轻取不应，重按始得',desc:'主里证。病在脏腑，气血内困。'},
+  chi:{name:'迟脉',feeling:'一息不足四至（<60次/分）',desc:'主寒证。有力为实寒，无力为虚寒。'},
+  shuo:{name:'数脉',feeling:'一息五至以上（>90次/分）',desc:'主热证。有力为实热，无力为虚热。'},
+  hua:{name:'滑脉',feeling:'往来流利，如珠走盘',desc:'主痰饮、食积、实热。妇人滑脉为妊娠之象。'},
+  se:{name:'涩脉',feeling:'往来艰涩不畅，如轻刀刮竹',desc:'主精亏血少、气滞血瘀。'},
+  xian:{name:'弦脉',feeling:'端直以长，如按琴弦',desc:'主肝胆病、痛证、痰饮。'},
+  xi:{name:'细脉',feeling:'脉细如线，但应指明显',desc:'主气血两虚、诸虚劳损。'},
+  hong:{name:'洪脉',feeling:'脉大有力，来盛去衰',desc:'主热盛。邪热亢盛、气分热炽。'},
+  ru:{name:'濡脉',feeling:'浮而细软，如帛在水',desc:'主虚证、湿证。'},
+  ruo:{name:'弱脉',feeling:'沉而细软，按之乃得',desc:'主气血不足、阳气虚衰。'},
+  jin:{name:'紧脉',feeling:'绷急有力，如牵绳转索',desc:'主寒证、痛证。'},
+  huan:{name:'缓脉',feeling:'一息四至，来去和缓',desc:'正常脉象。缓而无力多湿困。'},
+  jie:{name:'结脉',feeling:'脉来迟缓，时有中止，止无定数',desc:'主阴盛气结、寒痰血瘀。'},
+  dai:{name:'代脉',feeling:'脉来中止，止有定数，良久方来',desc:'主脏气衰微、痛证、惊恐。'},
+  cu:{name:'促脉',feeling:'脉来急数，时有中止，止无定数',desc:'主热盛、气滞血瘀。'},
+  normal:{name:'平脉',feeling:'不浮不沉，从容和缓，节律均匀',desc:'正常健康脉象。'},
 };
 
-// Pulse descriptions for general info
-const PULSE_DESC = {
-  fu:   { name:'浮脉', feeling:'轻取即得，重按反减，如水漂木', desc:'主表证。外感风寒或风热，病在肌表卫分。' },
-  chen: { name:'沉脉', feeling:'轻取不应，重按始得，如石沉水', desc:'主里证。病在脏腑，气血内困。有力为里实，无力为里虚。' },
-  chi:  { name:'迟脉', feeling:'一息不足四至（<60次/分）', desc:'主寒证。有力为实寒，无力为虚寒。亦可主邪聚热结。' },
-  shuo: { name:'数脉', feeling:'一息五至以上（>90次/分）', desc:'主热证。有力为实热，无力为虚热。数而无力多阴虚。' },
-  hua:  { name:'滑脉', feeling:'往来流利，如珠走盘，应指圆滑', desc:'主痰饮、食积、实热。妇人滑脉为妊娠之象。' },
-  se:   { name:'涩脉', feeling:'往来艰涩不畅，如轻刀刮竹', desc:'主精亏血少、气滞血瘀。有力为瘀滞，无力为精亏。' },
-  xian: { name:'弦脉', feeling:'端直以长，如按琴弦', desc:'主肝胆病、痛证、痰饮。弦为肝之主脉。' },
-  xi:   { name:'细脉', feeling:'脉细如线，但应指明显', desc:'主气血两虚、诸虚劳损。亦主湿邪困阻。' },
-  hong: { name:'洪脉', feeling:'脉大有力，来盛去衰，如波涛汹涌', desc:'主热盛。邪热亢盛、气分热炽。洪大有力为实热。' },
-  ru:   { name:'濡脉', feeling:'浮而细软，如帛在水', desc:'主虚证、湿证。气血不足或湿困脾胃。' },
-  ruo:  { name:'弱脉', feeling:'沉而细软，按之乃得', desc:'主气血不足、阳气虚衰。' },
-  jin:  { name:'紧脉', feeling:'绷急有力，如牵绳转索', desc:'主寒证、痛证。寒邪侵袭或剧痛。' },
-  huan: { name:'缓脉', feeling:'一息四至，来去和缓', desc:'正常脉象。缓而和缓有力为常脉；缓而无力多湿困。' },
-  jie:  { name:'结脉', feeling:'脉来迟缓，时有中止，止无定数', desc:'主阴盛气结、寒痰血瘀。结而无力多虚寒。' },
-  dai:  { name:'代脉', feeling:'脉来中止，止有定数，良久方来', desc:'主脏气衰微、痛证、惊恐。代脉多主危候。' },
-  cu:   { name:'促脉', feeling:'脉来急数，时有中止，止无定数', desc:'主热盛、气滞血瘀。数为热，止为瘀。' },
-  normal: { name:'平脉', feeling:'不浮不沉，从容和缓，节律均匀', desc:'正常健康脉象，提示气血调和、脏腑功能正常。' },
+// ====================  FORMULA RECOMMENDATIONS (B1)  ====================
+const FORMULA_DB = {
+  '心火上炎':       { name:'导赤散', compose:'生地黄、木通、甘草梢、淡竹叶', food:'莲子心茶（莲子心3g+淡竹叶5g泡水）' },
+  '心火炽盛':       { name:'泻心汤 / 导赤散', compose:'大黄、黄连、黄芩 / 生地黄、木通、竹叶', food:'苦瓜汁、绿豆汤清心降火' },
+  '心血瘀阻':       { name:'血府逐瘀汤', compose:'桃仁、红花、当归、生地黄、牛膝、柴胡、枳壳、赤芍、川芎、桔梗、甘草', food:'山楂红糖水、黑木耳活血化瘀' },
+  '心血虚 / 心阴虚': { name:'天王补心丹', compose:'生地黄、玄参、麦冬、天冬、当归、丹参、人参、茯苓、五味子、远志、柏子仁、酸枣仁', food:'龙眼肉、红枣、百合莲子粥养心安神' },
+  '心气虚':         { name:'保元汤 / 养心汤', compose:'黄芪、人参、甘草、肉桂 / 黄芪、人参、茯苓、茯神、当归、川芎、柏子仁、酸枣仁', food:'黄芪红枣茶、人参炖鸡汤' },
+  '心阳不振':       { name:'桂枝甘草汤 / 瓜蒌薤白白酒汤', compose:'桂枝、甘草 / 瓜蒌、薤白、白酒', food:'生姜红糖水、肉桂茶温通心阳' },
+  '痰火扰心':       { name:'黄连温胆汤', compose:'黄连、竹茹、枳实、半夏、陈皮、茯苓、甘草、生姜、大枣', food:'薏米冬瓜汤清热化痰' },
+  '肝火上炎':       { name:'龙胆泻肝汤', compose:'龙胆草、黄芩、栀子、泽泻、木通、车前子、当归、生地黄、柴胡、甘草', food:'菊花决明子茶、苦瓜、芹菜' },
+  '肝火炽盛':       { name:'龙胆泻肝汤 / 当归龙荟丸', compose:'龙胆草、黄芩、栀子、泽泻、车前子、当归、生地黄、柴胡、甘草', food:'夏枯草瘦肉汤、菊花茶' },
+  '肝气郁结 / 肝阳上亢': { name:'逍遥散 / 柴胡疏肝散', compose:'柴胡、当归、白芍、白术、茯苓、甘草、薄荷、生姜 / 柴胡、香附、川芎、枳壳、芍药、甘草', food:'玫瑰花茶、佛手柑、陈皮理气' },
+  '肝血不足 / 肝阴亏虚': { name:'四物汤 / 一贯煎', compose:'当归、川芎、白芍、熟地黄 / 沙参、麦冬、当归、生地黄、枸杞子、川楝子', food:'枸杞红枣茶、桑葚、阿胶' },
+  '肝经湿热':       { name:'龙胆泻肝汤', compose:'龙胆草、黄芩、栀子、泽泻、车前子、木通、生地黄、当归、柴胡、甘草', food:'冬瓜薏米汤、绿豆、赤小豆' },
+  '肝气犯胃':       { name:'柴胡疏肝散合左金丸', compose:'柴胡、香附、川芎、枳壳、白芍、甘草、吴茱萸、黄连', food:'陈皮佛手茶、小米粥养胃' },
+  '肝风上扰':       { name:'天麻钩藤饮', compose:'天麻、钩藤、石决明、栀子、黄芩、川牛膝、杜仲、益母草、桑寄生、夜交藤、茯神', food:'天麻炖鱼头、芹菜汁' },
+  '肾阴虚 / 肾精不足': { name:'六味地黄丸', compose:'熟地黄、山茱萸、山药、泽泻、牡丹皮、茯苓', food:'枸杞、黑芝麻、山药、桑葚' },
+  '肾阴虚火旺':     { name:'知柏地黄丸', compose:'知母、黄柏、熟地黄、山茱萸、山药、牡丹皮、茯苓、泽泻', food:'生地黄粥、枸杞菊花茶' },
+  '肾阳虚衰':       { name:'金匮肾气丸', compose:'熟地黄、山药、山茱萸、泽泻、茯苓、牡丹皮、桂枝、附子', food:'核桃、韭菜、羊肉、肉桂生姜茶' },
+  '肾阳虚寒':       { name:'右归丸', compose:'熟地黄、山药、山茱萸、枸杞子、鹿角胶、菟丝子、杜仲、当归、肉桂、制附子', food:'当归生姜羊肉汤、核桃仁、韭菜' },
+  '肾气虚 / 肾阳虚': { name:'金匮肾气丸 / 右归丸', compose:'熟地黄、山药、山茱萸、茯苓、泽泻、牡丹皮、桂枝、附子', food:'山药芡实粥、羊肉汤、核桃' },
+  '肾精亏虚':       { name:'左归丸 / 河车大造丸', compose:'熟地黄、山药、枸杞子、山茱萸、川牛膝、菟丝子、鹿胶、龟胶', food:'黑芝麻、枸杞、核桃、山药' },
+  '肺热壅盛':       { name:'麻杏石甘汤', compose:'麻黄、杏仁、石膏、甘草', food:'雪梨川贝汤、枇杷、白萝卜' },
+  '肺气不足 / 肺阴虚': { name:'生脉散 / 沙参麦冬汤', compose:'人参、麦冬、五味子 / 沙参、麦冬、玉竹、天花粉、扁豆、桑叶、甘草', food:'山药百合粥、川贝雪梨、银耳' },
+  '痰湿壅肺':       { name:'二陈汤合三子养亲汤', compose:'半夏、陈皮、茯苓、甘草、苏子、白芥子、莱菔子', food:'陈皮姜茶、薏米、冬瓜、白萝卜' },
+  '肺气虚':         { name:'补肺汤 / 玉屏风散', compose:'人参、黄芪、熟地、五味子、紫菀、桑白皮 / 黄芪、白术、防风', food:'黄芪炖鸡、山药、银耳' },
+  '风寒束肺':       { name:'麻黄汤 / 三拗汤', compose:'麻黄、桂枝、杏仁、甘草 / 麻黄、杏仁、甘草', food:'生姜葱白红糖水、紫苏叶茶' },
+  '脾胃虚弱':       { name:'四君子汤', compose:'人参、白术、茯苓、甘草', food:'山药薏米粥、小米粥、南瓜、红枣' },
+  '脾胃虚寒':       { name:'理中汤', compose:'人参、干姜、白术、甘草', food:'姜枣茶、羊肉汤、茴香、小米粥' },
+  '脾阳虚 / 中气下陷': { name:'补中益气汤', compose:'黄芪、人参、白术、甘草、当归、陈皮、升麻、柴胡', food:'黄芪炖鸡、山药、红枣、糯米粥' },
+  '胃火炽盛':       { name:'清胃散 / 玉女煎', compose:'黄连、升麻、当归、生地黄、牡丹皮 / 石膏、熟地黄、麦冬、知母、牛膝', food:'苦瓜、黄瓜、绿豆汤、梨' },
+  '脾虚湿困':       { name:'参苓白术散', compose:'人参、白术、茯苓、山药、莲子肉、白扁豆、薏苡仁、砂仁、桔梗、甘草', food:'薏米赤小豆汤、陈皮茶、山药' },
+  '脾胃寒凝':       { name:'良附丸 / 理中汤', compose:'高良姜、香附 / 人参、干姜、白术、甘草', food:'生姜红糖水、肉桂茶、暖胃' },
+  '肾虚不固':       { name:'金锁固精丸', compose:'沙苑蒺藜、芡实、莲须、龙骨、牡蛎', food:'芡实莲子粥、山药、核桃' },
+  '命门火衰':       { name:'右归丸 / 金匮肾气丸', compose:'熟地黄、山药、山茱萸、枸杞子、鹿角胶、菟丝子、杜仲、当归、肉桂、附子', food:'当归生姜羊肉汤、韭菜、核桃、肉桂' },
 };
+
+// ======================== PATIENT MGMT (B2) ========================
+
+function getPatients() {
+  try { return JSON.parse(localStorage.getItem('maizhen_patients')) || {}; } catch(e) { return {}; }
+}
+function savePatients(p) { localStorage.setItem('maizhen_patients', JSON.stringify(p)); }
+
+function getHistory(pid) {
+  try { return JSON.parse(localStorage.getItem('maizhen_hist_' + pid)) || []; } catch(e) { return []; }
+}
+function saveHistory(pid, h) { localStorage.setItem('maizhen_hist_' + pid, JSON.stringify(h)); }
+
+function renderPatientList() {
+  const sel = document.getElementById('patientSelect');
+  const pts = getPatients();
+  const current = sel.dataset.current || '';
+  sel.innerHTML = '<option value="__new">— 请选择或新建患者 —</option>';
+  Object.keys(pts).sort().forEach(id => {
+    const p = pts[id];
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = p.name + (p.gender ? ' · ' + p.gender : '') + (p.age ? ' ' + p.age + '岁' : '');
+    sel.appendChild(opt);
+  });
+  if (current && pts[current]) sel.value = current;
+}
+function switchPatient(id) {
+  document.getElementById('patientSelect').dataset.current = id;
+}
+function getCurrentPatientId() {
+  const v = document.getElementById('patientSelect').value;
+  return v === '__new' ? null : v;
+}
+function getCurrentPatient() {
+  const id = getCurrentPatientId();
+  if (!id) return null;
+  const pts = getPatients();
+  return pts[id] || null;
+}
+
+function showNewPatientModal() {
+  document.getElementById('patientModal').classList.add('show');
+  document.getElementById('newPatientName').value = '';
+  document.getElementById('newPatientAge').value = '';
+}
+function hideModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function createPatient() {
+  const name = document.getElementById('newPatientName').value.trim();
+  if (!name) { alert('请输入患者姓名'); return; }
+  const gender = document.getElementById('newPatientGender').value;
+  const age = document.getElementById('newPatientAge').value;
+  const pts = getPatients();
+  const id = 'p_' + Date.now();
+  pts[id] = { name, gender, age: age || '', created: Date.now() };
+  savePatients(pts);
+  renderPatientList();
+  document.getElementById('patientSelect').value = id;
+  document.getElementById('patientSelect').dataset.current = id;
+  hideModal('patientModal');
+}
+
+function deletePatient() {
+  const id = getCurrentPatientId();
+  if (!id) { alert('请先选择患者'); return; }
+  const p = getCurrentPatient();
+  if (!confirm('确定删除患者「' + p.name + '」及其所有诊断记录吗？')) return;
+  const pts = getPatients();
+  delete pts[id];
+  savePatients(pts);
+  localStorage.removeItem('maizhen_hist_' + id);
+  renderPatientList();
+}
+
+function showHistory() {
+  const id = getCurrentPatientId();
+  if (!id) { alert('请先选择患者'); return; }
+  const hist = getHistory(id);
+  const p = getCurrentPatient();
+  const el = document.getElementById('historyContent');
+  if (hist.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-light);font-size:14px;">暂无诊断记录</div>';
+  } else {
+    el.innerHTML = hist.reverse().map((r, i) => {
+      const date = new Date(r.time).toLocaleString('zh-CN');
+      const summary = r.summary || r.pulseSummary || '脉诊分析';
+      return `<div class="history-item">
+        <div class="h-date">📅 ${date}</div>
+        <div class="h-summary">${summary}</div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('historyModal').classList.add('show');
+}
+
+// ======================== INIT SYMPTOMS ========================
+
+function initSymptoms() {
+  const area = document.getElementById('symptomsArea');
+  area.innerHTML = SYMPTOM_GROUPS.map(g => `
+    <div class="symp-group">
+      <div class="group-title">${g.title}</div>
+      <div class="symp-grid">
+        ${g.items.map(s => `<label><input type="checkbox" value="${s}"><span>${s}</span></label>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ======================== RESET ========================
 
 function resetAll() {
-  const selects = document.querySelectorAll('select');
-  selects.forEach(s => s.value = '');
+  document.querySelectorAll('select').forEach(s => s.value = '');
+  document.querySelectorAll('#symptomsArea input[type="checkbox"]').forEach(c => c.checked = false);
   document.getElementById('resultArea').classList.remove('show');
 }
 
-// ====================  ANALYZE  ====================
+// ======================== ANALYZE ========================
+
 function analyze() {
   const positions = ['left-cun','left-guan','left-chi','right-cun','right-guan','right-chi'];
-  const selects = positions.map(id => ({ id, value: document.getElementById(id).value, name: document.getElementById(id).selectedOptions?.[0]?.text || '' }));
-  
+  const selects = positions.map(id => ({
+    id, value: document.getElementById(id).value,
+    name: document.getElementById(id).selectedOptions?.[0]?.text || ''
+  }));
   const filled = selects.filter(s => s.value);
-  
   if (filled.length === 0) {
-    document.getElementById('resultArea').classList.add('show');
-    document.getElementById('resultContent').innerHTML = `
-      <div class="empty-result">
-        <div class="icon">👆</div>
-        <p style="font-size:15px;line-height:1.6">请至少选择一个部位的脉象<br>然后点击"开始分析"</p>
-      </div>`;
-    document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+    showResult('<div class="empty-result"><div class="icon">👆</div><p style="font-size:15px;line-height:1.6">请至少选择一个部位的脉象</p></div>');
     return;
   }
 
-  // Build position analysis details
-  let posDetails = '';
-  let allSyndromes = [];
-  let pulseTypesUsed = [];
+  // ---- Collect data ----
+  let posDetails = '', allSyndromes = [], pulseTypesUsed = [];
 
   selects.forEach(s => {
     if (!s.value || s.value === 'normal') return;
@@ -600,118 +990,255 @@ function analyze() {
     if (knowledge && pulseInfo) {
       pulseTypesUsed.push(s.value);
       allSyndromes.push(knowledge.syndrome);
-      posDetails += `
-        <div class="item">
-          <span class="label">${organ.name}（${organ.organs}）</span><br>
-          <span style="font-weight:600;color:#C0392B">${pulseInfo.name}</span> → ${knowledge.syndrome}<br>
-          <span style="font-size:11px;color:#999">${knowledge.desc}</span>
-        </div>`;
+      posDetails += `<div class="item">
+        <span class="label">${organ.name}（${organ.organs}）</span><br>
+        <b style="color:var(--primary)">${pulseInfo.name}</b> → ${knowledge.syndrome}<br>
+        <span style="font-size:11px;color:#999">${knowledge.desc}</span>
+      </div>`;
     }
   });
-
-  // Also show normal ones
-  selects.forEach(s => {
-    if (s.value !== 'normal') return;
+  selects.filter(s => s.value === 'normal').forEach(s => {
     const organ = ORGAN_MAP[s.id];
-    posDetails += `
-      <div class="item">
-        <span class="label">${organ.name}（${organ.organs}）</span><br>
-        <span style="color:#2E7D32;font-weight:600">平脉（正常）</span> → 脉气和缓，脏腑调和
-      </div>`;
+    posDetails += `<div class="item">
+      <span class="label">${organ.name}（${organ.organs}）</span><br>
+      <span style="color:#2E7D32;font-weight:600">平脉（正常）</span> → 脉气和缓，脏腑调和
+    </div>`;
   });
 
-  // Generate overall summary
-  const summary = generateSummary(allSyndromes, pulseTypesUsed, selects);
+  // ---- Tongue ----
+  const tColor = document.getElementById('tongue-color');
+  const tcColor = document.getElementById('coating-color');
+  const tcQuality = document.getElementById('coating-quality');
+  const tShape = document.getElementById('tongue-shape');
+  const tongueData = {
+    color: tColor.value ? tColor.options[tColor.selectedIndex].text : '',
+    coating: tcColor.value ? tcColor.options[tcColor.selectedIndex].text : '',
+    quality: tcQuality.value ? tcQuality.options[tcQuality.selectedIndex].text : '',
+    shape: tShape.value ? tShape.options[tShape.selectedIndex].text : '',
+  };
 
-  document.getElementById('resultArea').classList.add('show');
-  document.getElementById('resultContent').innerHTML = `
+  // ---- Symptoms ----
+  const symptoms = [];
+  document.querySelectorAll('#symptomsArea input[type="checkbox"]:checked').forEach(c => symptoms.push(c.value));
+
+  // ---- Generate analysis ----
+  const summary = generateSummary(allSyndromes, pulseTypesUsed, selects, tongueData, symptoms);
+  const formulas = generateFormulas(allSyndromes);
+  const quickRef = getPulseQuickRef(pulseTypesUsed);
+
+  let html = `
     <div class="result-section">
       <h3>📊 综合分析</h3>
       <div class="summary">${summary}</div>
-    </div>
-    <div class="result-section">
-      <h3>🔬 各部位脉象分析</h3>
-      <div class="pos-analysis">${posDetails}</div>
-    </div>
-    <div class="result-section">
-      <h3>📋 脉象速查</h3>
-      ${getPulseQuickRef(pulseTypesUsed)}
     </div>`;
 
+  if (posDetails) {
+    html += `<div class="result-section">
+      <h3>🔬 各部位脉象分析</h3>
+      <div class="pos-analysis">${posDetails}</div>
+    </div>`;
+  }
+
+  if (tongueData.color || tongueData.coating || tongueData.quality || tongueData.shape) {
+    html += `<div class="result-section">
+      <h3>👅 舌诊参考</h3>
+      <div class="summary">${renderTongueAnalysis(tongueData, allSyndromes)}</div>
+    </div>`;
+  }
+
+  if (symptoms.length > 0) {
+    html += `<div class="result-section">
+      <h3>💬 问诊 — 已选症状</h3>
+      <div class="summary">${symptoms.map(s => `<span class="tag" style="background:#FBE9E7;color:#BF360C">${s}</span>`).join(' ')}</div>
+    </div>`;
+  }
+
+  if (formulas) {
+    html += `<div class="result-section green">
+      <h3>🏪 调养方案推荐</h3>
+      ${formulas}
+      <div style="margin-top:10px;font-size:12px;color:var(--text-light);background:#FFF3E0;padding:10px;border-radius:8px;">
+        💡 <b>食疗提示：</b>以上药膳建议可配合「本味汤膳」小程序查询具体制作方法。<br>
+        ⚠️ 方剂仅供参考，实际用药请遵医嘱。
+      </div>
+    </div>`;
+  }
+
+  if (quickRef) {
+    html += `<div class="result-section blue">
+      <h3>📋 脉象速查</h3>
+      ${quickRef}
+    </div>`;
+  }
+
+  showResult(html);
+
+  // ---- Save to history (B2) ----
+  const pid = getCurrentPatientId();
+  if (pid) {
+    const hist = getHistory(pid);
+    hist.push({
+      time: Date.now(),
+      pulseSummary: allSyndromes.length > 0 ? allSyndromes.slice(0,3).join('；') : '平脉',
+      summary: '脉象分析：' + (allSyndromes.length > 0 ? allSyndromes.slice(0,4).join('；') : '大致正常'),
+      tongue: tongueData,
+      symptoms: symptoms
+    });
+    if (hist.length > 100) hist.splice(0, hist.length - 100);
+    saveHistory(pid, hist);
+  }
+}
+
+function showResult(html) {
+  document.getElementById('resultContent').innerHTML = html;
+  document.getElementById('resultArea').classList.add('show');
   document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function generateSummary(syndromes, pulseTypes, selects) {
-  if (syndromes.length === 0 && selects.some(s => s.value === 'normal' || !s.value)) {
-    // Check if all selected are normal
-    const allNormal = selects.filter(s => s.value).every(s => s.value === 'normal');
-    if (allNormal) {
-      return '左右六部脉象皆平和从容，节律均匀，脉气和缓有力。<br><br>✅ <b>结论：</b>属正常脉象，提示气血调和、五脏安定、阴阳平衡。当前身体状态良好。';
-    }
-    if (selects.filter(s => s.value).length === 0) {
-      return '请选择至少一个部位的脉象后进行分析。';
-    }
+// ======================== GENERATE SUMMARY ========================
+
+function generateSummary(syndromes, pulseTypes, selects, tongue, symptoms) {
+  if (syndromes.length === 0 && selects.filter(s => s.value).every(s => s.value === 'normal')) {
+    return '✅ <b>结论：</b>脉象平和，属正常脉象，提示气血调和、五脏安定。' +
+      (tongue.color ? '<br>👅 舌象信息可供参考。' : '') +
+      (symptoms.length > 0 ? '<br>💬 如有不适症状，建议结合更多诊法综合判断。' : '');
+  }
+  if (syndromes.length === 0) {
     return '部分脉位未选或呈平脉，综合判断信息不足，建议结合更多脉位进行整体分析。';
   }
 
-  // Check for deficiency patterns
-  const defPatterns = ['虚','亏','衰','弱','不足'];
-  const excessPatterns = ['实','盛','亢','火','热','滞','瘀','痰','湿','寒','郁'];
-
+  const defPatterns = ['虚','亏','衰','弱','不足','少'];
+  const excPatterns = ['实','盛','亢','火','热','滞','瘀','痰','湿','寒','郁','风'];
   let defCount = 0, excCount = 0;
   syndromes.forEach(s => {
     if (defPatterns.some(p => s.includes(p))) defCount++;
-    if (excessPatterns.some(p => s.includes(p))) excCount++;
+    if (excPatterns.some(p => s.includes(p))) excCount++;
   });
 
-  let conclusion = '';
-  const totalAnalyzed = selects.filter(s => s.value && s.value !== 'normal').length;
+  // Tongue contributes
+  const tVal = document.getElementById('tongue-color')?.value;
+  if (tVal === 'pale') defCount += 2;
+  if (tVal === 'red' || tVal === 'crimson') excCount += 2;
+  if (tVal === 'purple') excCount += 1;
+
+  const tcVal = document.getElementById('coating-color')?.value;
+  if (tcVal === 'yellow') excCount += 1;
+  if (tcVal === 'black') excCount += 2;
+
+  const tShapeVal = document.getElementById('tongue-shape')?.value;
+  if (tShapeVal === 'swollen' || tShapeVal === 'tooth') defCount += 1;
+  if (tShapeVal === 'thin') defCount += 2;
+
+  let conclusion = '', tagClass = '';
+  const total = selects.filter(s => s.value && s.value !== 'normal').length;
 
   if (defCount > excCount && defCount >= 2) {
-    conclusion = '总体以<b>虚证</b>为主，提示脏腑气血阴阳有所不足，建议以扶正补益为调养方向。注意适当休息，避免过劳，可配合对应体质的药膳进行调理。';
+    conclusion = '总体以<b>虚证</b>为主，提示脏腑气血阴阳有所不足。建议以扶正补益为调养方向，注意适当休息，避免过劳，配合对应体质的药膳调理。';
+    tagClass = 'def';
   } else if (excCount > defCount && excCount >= 2) {
-    conclusion = '总体以<b>实证</b>为主，提示体内有邪气（如热、湿、痰、瘀、寒等）停留，建议以祛邪为调养方向。注意饮食清淡，忌食辛辣油腻，必要时请中医师辨证施治。';
+    conclusion = '总体以<b>实证</b>为主，提示体内有邪气停留（热、湿、痰、瘀、寒等）。建议以祛邪为调养方向，饮食清淡，忌辛辣油腻，必要时请中医师辨证施治。';
+    tagClass = 'exc';
   } else if (defCount > 0 && excCount > 0) {
-    conclusion = '总体呈<b>虚实夹杂</b>之象，既有正气不足，又有邪气留滞。调养上需攻补兼施，建议到中医馆面诊，由专业医师制定个性化调理方案。';
+    conclusion = '总体呈<b>虚实夹杂</b>之象，既有正气不足，又有邪气留滞。调养上需攻补兼施，建议到中医馆面诊，由专业医师制定个性化方案。';
+    tagClass = 'mix';
   } else {
-    conclusion = '脉象提示身体存在一定偏差，建议结合舌诊、问诊等其他诊法综合判断，可到中医馆进一步辨识调养。';
+    conclusion = '脉象提示身体存在一定偏差，建议结合舌诊、问诊等其他诊法综合判断。';
   }
 
-  // Specific common patterns
+  // Pattern notes
   let patternNote = '';
-  if (pulseTypes.includes('xian')) {
-    patternNote += '⚠️ 弦脉出现频率较高，注意<b>情绪管理</b>，避免恼怒焦虑。';
-  }
-  if (pulseTypes.includes('hua')) {
-    patternNote += patternNote ? '<br>' : '';
-    patternNote += '⚠️ 滑脉出现，注意<b>饮食清淡</b>，避免肥甘厚味助湿生痰。';
-  }
-  if (pulseTypes.includes('xi') || pulseTypes.includes('ruo')) {
-    patternNote += patternNote ? '<br>' : '';
-    patternNote += '⚠️ 细弱脉提示<b>气血不足</b>，注意休息调养，可配合补益药膳。';
-  }
+  if (pulseTypes.includes('xian')) patternNote += '⚠️ 弦脉出现，注意<b>情绪管理</b>，避免恼怒焦虑。<br>';
+  if (pulseTypes.includes('hua')) patternNote += '⚠️ 滑脉出现，注意<b>饮食清淡</b>，避免肥甘厚味。<br>';
+  if (pulseTypes.includes('xi') || pulseTypes.includes('ruo')) patternNote += '⚠️ 细弱脉提示<b>气血不足</b>，注意休息调养，可配合补益药膳。<br>';
 
-  return `共分析 ${totalAnalyzed} 个脉位。<br><br>
-  🔹 涉及证型：${syndromes.join('、')}<br><br>
-  🔹 <b>性质判断：</b>${conclusion}<br>
-  ${patternNote ? '<br>' + patternNote : ''}`;
+  // Symptom matching
+  if (symptoms.includes('失眠') && pulseTypes.includes('shuo')) patternNote += '📌 失眠+数脉，提示心火或阴虚内热扰动心神。<br>';
+  if (symptoms.includes('乏力') && (pulseTypes.includes('xi') || pulseTypes.includes('ruo'))) patternNote += '📌 乏力+细弱脉，符合气血不足表现。<br>';
+  if (symptoms.includes('口干') && (tVal === 'red' || tVal === 'crimson')) patternNote += '📌 口干+红绛舌，提示热盛伤津。<br>';
+
+  return `
+    共分析 ${total} 个脉位。涉及证型：${syndromes.join('、')}<br><br>
+    🔹 <b>性质判断：</b><span class="tag ${tagClass}">${tagClass === 'def' ? '虚证' : tagClass === 'exc' ? '实证' : tagClass === 'mix' ? '虚实夹杂' : '偏颇'}</span><br>
+    ${conclusion}<br>
+    ${patternNote ? '<br>' + patternNote : ''}
+  `;
+}
+
+function renderTongueAnalysis(tongue, syndromes) {
+  let lines = [];
+  if (tongue.color) lines.push('舌色：' + tongue.color);
+  if (tongue.coating) lines.push('苔色：' + tongue.coating);
+  if (tongue.quality) lines.push('苔质：' + tongue.quality);
+  if (tongue.shape) lines.push('舌形：' + tongue.shape);
+
+  let note = '';
+  const t = document.getElementById('tongue-color')?.value;
+  const tc = document.getElementById('coating-color')?.value;
+  const tq = document.getElementById('coating-quality')?.value;
+  const ts = document.getElementById('tongue-shape')?.value;
+
+  if (t === 'pale') note += '💡 淡白舌多主气血虚或阳虚，与虚证脉象相符。<br>';
+  if (t === 'red' || t === 'crimson') note += '💡 红绛舌多主热证，与热象脉象一致。<br>';
+  if (t === 'purple') note += '💡 紫舌多主血瘀或热极，注意血瘀倾向。<br>';
+  if (tc === 'yellow') note += '💡 黄苔提示里热证。<br>';
+  if (tq === 'greasy') note += '💡 腻苔提示湿浊或痰饮内停。<br>';
+  if (tq === 'peeled' || tq === 'none') note += '💡 剥苔/无苔提示胃阴亏虚。<br>';
+  if (ts === 'swollen' || ts === 'tooth') note += '💡 胖大/齿痕舌提示脾虚湿盛。<br>';
+  if (ts === 'thin') note += '💡 瘦薄舌提示气血阴液不足。<br>';
+  if (ts === 'cracked') note += '💡 裂纹舌提示热盛伤阴或阴虚。<br>';
+  if (ts === 'ecchymosis') note += '💡 瘀斑舌提示体内有瘀血。<br>';
+
+  return '<b>舌象概况：</b>' + lines.join('，') + '<br><br>' + (note || '');
+}
+
+function generateFormulas(syndromes) {
+  if (syndromes.length === 0) return null;
+  const matched = [];
+  syndromes.forEach(s => {
+    // Try exact match
+    for (const [key, val] of Object.entries(FORMULA_DB)) {
+      if (s.includes(key) && !matched.some(m => m.name === val.name)) {
+        matched.push(val);
+        if (matched.length >= 3) break;
+      }
+    }
+    // Try partial match
+    for (const [key, val] of Object.entries(FORMULA_DB)) {
+      if (key.split(' / ').some(k => s.includes(k) || s.includes(key.split(' ')[0])) && !matched.some(m => m.name === val.name)) {
+        if (!matched.includes(val)) matched.push(val);
+        if (matched.length >= 3) break;
+      }
+    }
+  });
+
+  if (matched.length === 0) return null;
+
+  return matched.map(m => `
+    <div class="rec-card">
+      <div class="rec-name">📜 ${m.name}</div>
+      <div class="rec-comp">组成：${m.compose}</div>
+      <div style="font-size:12px;">🍵 <b>食疗建议：</b>${m.food}</div>
+    </div>
+  `).join('');
 }
 
 function getPulseQuickRef(pulseTypes) {
   const unique = [...new Set(pulseTypes)];
-  if (unique.length === 0) return '<div style="font-size:13px;color:var(--text-light)">未涉及异常脉象。</div>';
-
+  if (unique.length === 0) return null;
   return unique.map(pt => {
     const info = PULSE_DESC[pt];
     if (!info) return '';
     return `<div style="padding:8px 10px;background:var(--prim-bg);border-radius:8px;margin-bottom:6px;font-size:13px;line-height:1.6">
-      <b style="color:#C0392B">${info.name}</b> — ${info.feeling}<br>
+      <b style="color:var(--primary)">${info.name}</b> — ${info.feeling}<br>
       <span style="color:var(--text-light)">${info.desc}</span>
     </div>`;
   }).join('');
 }
 
+// ======================== INIT ========================
 
+initSymptoms();
+renderPatientList();
 </script>
 </body>
 </html>
