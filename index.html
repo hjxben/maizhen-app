@@ -393,11 +393,27 @@
     font-weight: 700;
     color: var(--primary);
   }
+  .rec-card { position: relative; }
   .rec-card .rec-comp {
     font-size: 12px;
     color: var(--text-light);
     margin: 3px 0;
   }
+  .btn-copy-rx {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    background: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-copy-rx:active { transform: scale(.9); opacity: .8; }
+  .btn-copy-rx.copied { background: var(--green); }
 
   .empty-result {
     text-align: center;
@@ -1450,8 +1466,9 @@ function generateFormulas(syndromes) {
     });
   }
   if (matched.length === 0) return null;
-  return matched.map(m => `
-    <div class="rec-card">
+  return matched.map((m, i) => `
+    <div class="rec-card" id="rec_${i}">
+      <button class="btn-copy-rx" onclick="copyFormula(${i})">📋 复制</button>
       <div class="rec-name">📜 ${m.name}</div>
       <div class="rec-comp">组成：${m.compose}</div>
       <div style="font-size:12px;color:var(--primary);">💊 <b>用法：</b>${m.dose}</div>
@@ -1471,6 +1488,33 @@ function getPulseQuickRef(refs) {
       <span style="color:var(--text-light)">${info.desc}</span>
     </div>`;
   }).join('');
+}
+
+function copyFormula(index) {
+  const rec = document.getElementById('rec_' + index);
+  if (!rec) return;
+  const name = rec.querySelector('.rec-name')?.textContent?.replace('📜 ','') || '';
+  const compose = rec.querySelector('.rec-comp')?.textContent?.replace('组成：','') || '';
+  const dose = rec.querySelector('[style*="color:var(--primary)"]')?.textContent?.replace('💊 ','') || '';
+  const text = `【${name}】\n组成：${compose}\n${dose}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = rec.querySelector('.btn-copy-rx');
+    btn.textContent = '✅ 已复制';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 复制'; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = rec.querySelector('.btn-copy-rx');
+    btn.textContent = '✅ 已复制';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 复制'; btn.classList.remove('copied'); }, 2000);
+  });
 }
 
 // ======================== INIT ========================
