@@ -668,11 +668,9 @@ function generateSummary(syndromes, pulseTypes, selects) {
   const totalAnalyzed = selects.filter(s => s.value && s.value !== 'normal').length;
 
   if (defCount > excCount && defCount >= 2) {
-    conclusion = '总体以<b>虚证</b>为主，提示脏腑气血阴阳有所不足，建议以扶正补益为调养方向。
-注意适当休息，避免过劳，可配合对应体质的药膳进行调理。';
+    conclusion = '总体以<b>虚证</b>为主，提示脏腑气血阴阳有所不足，建议以扶正补益为调养方向。注意适当休息，避免过劳，可配合对应体质的药膳进行调理。';
   } else if (excCount > defCount && excCount >= 2) {
-    conclusion = '总体以<b>实证</b>为主，提示体内有邪气（如热、湿、痰、瘀、寒等）停留，建议以祛邪为调养方向。
-注意饮食清淡，忌食辛辣油腻，必要时请中医师辨证施治。';
+    conclusion = '总体以<b>实证</b>为主，提示体内有邪气（如热、湿、痰、瘀、寒等）停留，建议以祛邪为调养方向。注意饮食清淡，忌食辛辣油腻，必要时请中医师辨证施治。';
   } else if (defCount > 0 && excCount > 0) {
     conclusion = '总体呈<b>虚实夹杂</b>之象，既有正气不足，又有邪气留滞。调养上需攻补兼施，建议到中医馆面诊，由专业医师制定个性化调理方案。';
   } else {
